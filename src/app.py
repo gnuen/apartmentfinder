@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from flask import Flask, request
+import encrypt
 
 app = Flask(__name__)
 
@@ -8,12 +9,15 @@ app = Flask(__name__)
 def main():
     return '''
      <form action="/echo_user_input" method="POST">
-         <input name="user_input">
+     Enter Name:<br/>
+         <input name="user_input"><br/>Enter Password:
+         <input name="pass_input">
          <input type="submit" value="Submit!">
      </form>
      '''
 
 @app.route("/echo_user_input", methods=["POST"])
 def echo_input():
-    input_text = request.form.get("user_input", "")
-    return "You entered: " + input_text
+    user_input = request.form.get("user_input", "")
+    pass_input = request.form.get("pass_input", "")
+    return "You entered user: " + user_input + "<br/>You entered pass: " + encrypt.md5(pass_input)
